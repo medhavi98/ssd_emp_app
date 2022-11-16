@@ -1,13 +1,50 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  box-sizing: border-box;
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body{
+  background-image: linear-gradient(rgba(230, 225, 225, 0.552), rgba(247, 244, 244, 0.5)), url("https://wallpapercave.com/wp/wp10817930.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  background-attachment: fixed;
+  /* overflow: hidden; */
+}
+
+.login{
+  background-color:  rgba(0, 0, 0, 0.611);
+  border-radius: 10px;
+  color: rgb(7, 0, 0);
+}
+
+/* #textField, #textField:focus{
+  border: 1px solid white;
+  border-radius: 5px;
+  color: #fff;
+} */
+
+.form-field{
+  margin: 20px 0px !important;
+  border: 1px solid rgb(5, 0, 0) !important;
+  border-radius: 5px;
+  color: rgb(0, 0, 0) !important;
+}
+
+.textField:focus{
+  border: none;
+  outline: none;
+}
+
+.textfield__label{
+  color: rgb(9, 1, 1) !important;
+}
+
+.staffBox{
+ 
+  background-color:  rgba(236, 231, 231, 0.274);
+  border-radius: 10px;
+  color: rgb(21, 2, 2);
+ 
 }

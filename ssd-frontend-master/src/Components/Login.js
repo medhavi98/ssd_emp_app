@@ -1,8 +1,8 @@
-import { Button, FormControl, TextField } from "@mui/material";
+import { Button, FormControl, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React, { Component } from "react";
 import jwtDecode from "jwt-decode";
-import emailjs from "emailjs-com";
+import TextFieldComponent from "./Common/TextFieldComponent";
 
 class Login extends Component {
   constructor(props) {
@@ -55,6 +55,7 @@ class Login extends Component {
 
   render() {
     const { username, password } = this.state;
+    console.log(username, password);
     return (
       <div
         style={{
@@ -65,10 +66,13 @@ class Login extends Component {
         }}
       >
         <div>
-          <h3>Login with your employee account</h3>
+          <Typography variant="h5" sx={{ color: "black" }}>
+            Login with your employee account
+          </Typography>
           <form onSubmit={this.handleSubmit}>
             <FormControl sx={{ width: "40ch" }} variant="outlined">
-              <TextField
+              <TextFieldComponent
+                classes="form-field"
                 name="username"
                 value={username}
                 id="username"
@@ -78,9 +82,10 @@ class Login extends Component {
                 required
               />{" "}
               <br />
-              <TextField
+              <TextFieldComponent
                 type="password"
                 name="password"
+                classes="form-field"
                 value={password}
                 id="password"
                 label="Password"

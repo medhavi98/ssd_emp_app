@@ -4,7 +4,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, makeStyles } from "@mui/material";
+import TextFieldComponent from "./Common/TextFieldComponent";
+
+
+
+
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -14,8 +19,11 @@ class AdminDashboard extends Component {
       username: "",
       password: "",
       role: "",
+      
     };
   }
+
+
 
   handleChange = (e) => {
     this.setState({
@@ -43,6 +51,7 @@ class AdminDashboard extends Component {
   }
 
   render() {
+    
     var role = sessionStorage.getItem("role");
     if (role === "Admin") {
       const { username, password, role } = this.state;
@@ -64,7 +73,8 @@ class AdminDashboard extends Component {
             <h3>Create User</h3>
             <form id="regForm" onSubmit={this.handleSubmit}>
               <FormControl sx={{ width: "40ch" }} variant="outlined">
-                <TextField
+                <TextFieldComponent
+                  classes="form-field"
                   name="username"
                   id="username"
                   label="Username"
@@ -74,7 +84,8 @@ class AdminDashboard extends Component {
                   required
                 />{" "}
                 <br />
-                <TextField
+                <TextFieldComponent
+                  classes="form-field"
                   name="password"
                   id="password"
                   label="Password"
@@ -84,7 +95,7 @@ class AdminDashboard extends Component {
                   required
                 />{" "}
                 <br />
-                <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                <FormControl  variant="filled" sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel id="demo-simple-select-filled-label">
                     Role
                   </InputLabel>

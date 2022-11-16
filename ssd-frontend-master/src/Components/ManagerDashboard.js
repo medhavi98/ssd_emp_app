@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { FormControl, Button, TextField } from "@mui/material";
+import { FormControl, Button, TextField, Grid } from "@mui/material";
 import CryptoJS from "crypto-js";
+
+import TextFieldComponent from "./Common/TextFieldComponent";
+
+
 
 class ManagerDashboard extends Component {
   constructor(props) {
@@ -75,43 +79,50 @@ class ManagerDashboard extends Component {
             height: "100vh",
           }}
         >
-          <div>
-            <br />
-            <h2>Manager Dashboard</h2>
-            <h3>Enter Message</h3>
-            <form id="msgForm" onSubmit={this.handleSubmit}>
-              <FormControl sx={{ width: "40ch" }} variant="outlined">
-                <TextField
-                  name="message"
-                  id="message"
-                  label="Message"
+         
+              <div>
+                <br />
+                <h2>Manager Dashboard</h2>
+                <h3>Enter Message</h3>
+                <form id="msgForm" onSubmit={this.handleSubmit}>
+                  <FormControl sx={{ width: "40ch" }} variant="outlined">
+                    <TextFieldComponent
+                      name="message"
+                      classes="form-field"
+                      id="message"
+                      label="Message"
+                      variant="outlined"
+                      value={message}
+                      onChange={this.handleChange}
+                      required
+                    />{" "}
+                    <br />
+                    <TextFieldComponent
+                      type="file"
+                      name="fileUpload"
+                      variant="outlined"
+                      classes="form-field"
+                      width="100%"
+                      onChange={this.handleChange}
+                    />
+                    <br />
+                    <Button type="submit" variant="contained">
+                      Send
+                    </Button>
+                  </FormControl>
+                </form>
+                <br />
+                <br />
+                <br />
+                <Button
                   variant="outlined"
-                  value={message}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                <br />
-                <Button variant="outlined" component="label">
-                  Upload File
-                  <input type="file" hidden />
+                  color="error"
+                  onClick={() => this.logout()}
+                >
+                  Logout
                 </Button>
-                <br />
-                <Button type="submit" variant="contained">
-                  Send
-                </Button>
-              </FormControl>
-            </form>
-            <br />
-            <br />
-            <br />
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => this.logout()}
-            >
-              Logout
-            </Button>
-          </div>
+              </div>
+            
         </div>
       );
     } else {
