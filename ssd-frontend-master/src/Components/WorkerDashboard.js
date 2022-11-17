@@ -139,7 +139,7 @@ class WorkerDashboard extends Component {
                       required
                     />{" "}
                     <br />
-                    <Button type="submit" variant="contained">
+                    <Button style={{marginTop: '10px'}} type="submit" variant="contained">
                       Send
                     </Button>
                   </FormControl>
