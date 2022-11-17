@@ -4,55 +4,31 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var RegistrationValidation = require("../middleware/jwtValidation/registrationValidation");
+const { userLogging, createStaff } = require("../service/userService");
 
 //login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
-
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user._id,
-      username: user.username,
-      token: generateToken(user._id, user.role),
-      role: user.role,
-    });
-  } else {
-    res.status(400).json({ message: "invalid" });
+  try {
+    const result = await userLogging(username, password);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
   }
-
   // res.json({message: 'Login User'})
 });
 
 //create staff
 router.post("/create", async (req, res) => {
-  //jwt validation
+  const { username, password, role } = req.body;
+
   if (RegistrationValidation(req)) {
-    const { username, password, role } = req.body;
-    const userExists = await User.findOne({ username });
-    if (userExists) {
-      res.status(400).json({ message: "invalid" });
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      const user = await User.create({
-        username,
-        password: hashedPassword,
-        role,
-      });
-
-      if (user) {
-        res.status(201).json({
-          _id: user._id,
-          username: user.username,
-          role: user.role,
-        });
-      } else {
-        res.status(400);
-        throw new Error("Invalid user data");
-      }
+    try {
+      const result = await createStaff(username, password, role);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json(error);
     }
   } else {
     res.status(401).json({
