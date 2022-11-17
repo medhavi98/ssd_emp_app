@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const staffData = [{ sid: "ID100" }, { sid: "ID100" }];
+
 
 class ManagerDashboard extends Component {
   constructor(props) {
@@ -113,7 +113,7 @@ class ManagerDashboard extends Component {
   }
 
   render() {
-    console.log(this.state.allMessage);
+   
     var role = sessionStorage.getItem("role");
     if (role === "Manager") {
       const { message } = this.state;
