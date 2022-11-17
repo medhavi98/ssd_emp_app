@@ -86,6 +86,7 @@ class AdminDashboard extends Component {
                 <br />
                 <TextFieldComponent
                   classes="form-field"
+                  type="password"
                   name="password"
                   id="password"
                   label="Password"
