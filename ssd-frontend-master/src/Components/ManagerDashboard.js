@@ -2,8 +2,36 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FormControl, Button, TextField, Grid } from "@mui/material";
 import CryptoJS from "crypto-js";
-
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 import TextFieldComponent from "./Common/TextFieldComponent";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 
 
@@ -16,8 +44,26 @@ class ManagerDashboard extends Component {
       message: "",
       encryptedMsg: "",
       sender: user,
+      allMessage:[]
     };
   }
+
+  componentDidMount() {
+    const jwt = localStorage.getItem("jwtToken");
+    const user = localStorage.getItem("username");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+    axios
+      .get(`http://localhost:4000/messages/messagess/${user}`, this.state, {})
+      .then((response) => {
+       
+        this.setState({
+          allMessage: response.data
+        })
+
+        // window.location.reload(false);
+      });
+  }
+  
 
   handleChange = (e) => {
     this.setState({
@@ -67,6 +113,7 @@ class ManagerDashboard extends Component {
   }
 
   render() {
+   
     var role = sessionStorage.getItem("role");
     if (role === "Manager") {
       const { message } = this.state;
@@ -79,7 +126,8 @@ class ManagerDashboard extends Component {
             height: "100vh",
           }}
         >
-         
+          <Grid container>
+            <Grid md={4}>
               <div>
                 <br />
                 <h2>Manager Dashboard</h2>
@@ -122,7 +170,30 @@ class ManagerDashboard extends Component {
                   Logout
                 </Button>
               </div>
-            
+            </Grid>
+            <Grid md={6} mt={15}>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 200 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell sx={{ width: "50%" }}>
+                        Messages
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.allMessage.map((row, index) => (
+                      <StyledTableRow key={index}>
+                        <StyledTableCell component="th" scope="row">
+                          {row}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
         </div>
       );
     } else {

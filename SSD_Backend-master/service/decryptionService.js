@@ -1,14 +1,16 @@
-const cryptojs = require("crypto-js");
-
-function DecryptionService(originalMessage) {
-  var sendingTxt = cryptojs.enc.Utf8.parse(originalMessage);
-  var key = cryptojs.enc.Utf8.parse("JaNdRgUkXp2s5v8y");
-  var encrypted = cryptojs.AES.decrypt(sendingTxt, key, {
-    mode: cryptojs.mode.ECB,
-    padding: cryptojs.pad.ZeroPadding,
+const CryptoJS = require("crypto-js");
+ 
+function DecryptionService(encryptedText) {
+  var receivedText = CryptoJS.enc.Hex.parse(encryptedText);
+  var key = CryptoJS.enc.Utf8.parse("JaNdRgUkXp2s5v8y");
+ 
+  var decrypted = CryptoJS.AES.decrypt({ ciphertext: receivedText }, key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.ZeroPadding,
   });
-  encrypted = encrypted.ciphertext.toString(cryptojs.enc.Hex);
-  return encrypted;
+  //Utf8 decode the decrypted data
+  decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+  return decrypted;
 }
-
+ 
 module.exports = DecryptionService;
