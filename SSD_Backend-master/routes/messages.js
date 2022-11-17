@@ -4,6 +4,7 @@ const Message = require("../models/messageModel");
 var MessageAuthenticate = require("../middleware/messageAuth");
 var MsgValidation = require("../middleware/jwtValidation/msgValidation");
 var EncryptionService = require("../service/encryptionService");
+var DecryptionService = require("../service/decryptionService");
 
 router.post("/messages", async (req, res) => {
   //encrypt original payload
@@ -44,10 +45,27 @@ router.post("/messages", async (req, res) => {
   }
 });
 
-router.get("/messagess", async (req, res) => {
+router.get("/messagess/:userName", async (req, res) => {
   try {
+    const { userName } = req.params;
+    console.log("userName", userName);
+
     const groups = await Message.find();
-    res.json(groups);
+
+    const result = groups.filter((m) => {
+      if (userName === DecryptionService(m.sender)) {
+        return m;
+      }
+    });
+
+    let finalResult = [];
+    result.forEach((m) => {
+      var decSender = DecryptionService(m.message);
+      finalResult = [...finalResult, decSender];
+    });
+
+    console.log("decSender", finalResult);
+    res.json(finalResult);
   } catch (error) {
     res.status(500).json({
       message: error.message,
